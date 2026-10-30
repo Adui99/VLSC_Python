@@ -1,0 +1,10 @@
+. TÓM TẮT QUY TRÌNH
+1.	Đọc dữ liệu và khám phá cấu trúc, kiểu dữ liệu.
+2.	Kiểm tra dữ liệu thiếu.
+3.	Chuẩn hóa văn bản và nhãn phân loại.
+4.	Kiểm tra quy tắc nghiệp vụ để phát hiện dữ liệu không hợp lệ.
+5.	Phát hiện ngoại lai bằng IQR; điều tra trước khi xử lý.
+6.	Áp dụng quy tắc làm sạch có căn cứ và lưu DataFrame mới.
+7.	Tính toán, phân tích theo nhóm bằng groupby, sum, sort_values.
+8.	Mã hóa biến phân loại khi cần.
+9.	Xuất kết quả CSV/Excel và ghi rõ quy tắc đã áp dụng.

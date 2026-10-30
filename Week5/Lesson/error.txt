@@ -1,0 +1,55 @@
+================================================================================
+                    BÁO CÁO TỔNG HỢP VÀ GHI CHÚ CÁC LỖI (LESSON 05)
+================================================================================
+
+1. LỖI 1: ValueError: Cannot index with multidimensional key
+--------------------------------------------------------------------------------
+- Vị trí: Dòng 51 - 57 trong file lesson05.py
+- Nguyên nhân:
+  + Tại dòng 51: mask = df[(df["Quantity"] < lower) | (df["Quantity"] > upper)]
+    Việc bọc df[...] làm biến 'mask' trở thành một DataFrame (mảng 2 chiều).
+  + Tại dòng 57: df.loc[mask, ["OrderID", "Quantity"]]
+    df.loc chỉ nhận điều kiện lọc dòng là mảng 1 chiều (Series boolean / list index),
+    khi nhận một DataFrame 2 chiều làm khóa chỉ mục sẽ báo lỗi "Cannot index with multidimensional key".
+- Cách khắc phục:
+  + Gán mask là một Series boolean (1 chiều):
+      mask = (df["Quantity"] < lower) | (df["Quantity"] > upper)
+      print(df.loc[mask, ["OrderID", "Quantity"]])
+
+
+2. LỖI 2: NameError: name 'clean_df' is not defined
+--------------------------------------------------------------------------------
+- Vị trí: Dòng 60 trong file lesson05.py
+- Nguyên nhân:
+  + Bị thiếu Bước 6 trong quy trình chuẩn (quytrinh.txt: "6. Áp dụng quy tắc làm sạch có căn cứ và lưu DataFrame mới").
+  + Khi gọi `clean_df["Revenue"] = clean_df["Quantity"] * clean_df["UnitPrice"]`, biến clean_df chưa được khởi tạo.
+- Cách khắc phục:
+  + Tạo biến clean_df và áp dụng các quy tắc làm sạch dữ liệu:
+      clean_df = df.dropna().copy()
+      clean_df = clean_df[
+          (clean_df["Quantity"] > 0) &
+          (clean_df["UnitPrice"] > 0) &
+          (clean_df["Quantity"] <= 50)
+      ].copy()
+
+
+3. LỖI 3: ModuleNotFoundError: No module named 'openpyxl'
+--------------------------------------------------------------------------------
+- Vị trí: Dòng 98 trong file lesson05.py
+- Nguyên nhân:
+  + Dòng lệnh: with pd.ExcelWriter("sales_report.xlsx", engine="openpyxl") as writer:
+  + Thư viện openpyxl chưa được cài đặt trong môi trường Python để hỗ trợ xuất file Excel (.xlsx).
+- Cách khắc phục:
+  + Chạy lệnh cài đặt trong Terminal:
+      pip install openpyxl
+
+
+================================================================================
+KẾT QUẢ SAU KHI SỬA
+================================================================================
+- File lesson05.py đã chạy thành công 100% (mã thoát exit code 0).
+- Tổng doanh thu tính được: 136,290,000 VNĐ.
+- Đã xuất thành công 2 file kết quả:
+  1. sales_clean.csv (Dữ liệu đã làm sạch)
+  2. sales_report.xlsx (Báo cáo tổng hợp đa sheet gồm CleanData, ByProduct, ByCity)
+================================================================================
